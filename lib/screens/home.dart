@@ -14,7 +14,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    bool selected_cat = false;
+    //bool selected_cat = false;
     return Scaffold(
       backgroundColor: app_colors.primarycolor,
       appBar: costom_App_bar(isBlackk: true),
@@ -74,7 +74,6 @@ class _HomeState extends State<Home> {
                         if(context==0){
                           
                           setState(() {
-                            selected_cat=true;
                           });
                           
                         }
@@ -107,7 +106,7 @@ class _HomeState extends State<Home> {
                   },
                 ),
                 Gap(20),
-                // description container
+                // description 
                 Container(
                   height: 300,
                   color: app_colors.secondarycolor,
