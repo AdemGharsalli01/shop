@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 class old_money{
   final String image;
   final String name;
@@ -11,7 +13,7 @@ class old_money{
     required this.description,
     required this.qty
   });
-  static List<old_money>old_money_clothes=[
+  static List<old_money>Old_money_clothes=[
     old_money(
       image: "images/images1.jpg",
       name: "fersimages",

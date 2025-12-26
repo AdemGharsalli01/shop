@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:intl/intl.dart';
 import 'package:shop/componment/app_bar.dart';
+import 'package:shop/medels/cover.dart';
 import 'package:shop/medels/product.dart';
+import 'package:shop/componment/description.dart';
 import 'package:shop/share/app_colors.dart';
 
 class Home extends StatefulWidget {
@@ -14,21 +17,26 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    List<Product> selected = [];
+    DateTime now = DateTime.now();
+    int day = now.day;
+    String month = DateFormat('MMMM', 'en_us').format(now);
+
     //bool selected_cat = false;
     return Scaffold(
       backgroundColor: app_colors.primarycolor,
-      appBar: costom_App_bar(isBlackk: true),
+      appBar: costom_App_bar(isBlackk: true,cards: selected,),
       body: Stack(
         alignment: AlignmentGeometry.center,
 
         children: [
-          // texts
+          // date text
           Positioned(
             top: 0,
             left: 0,
             right: 0,
             child: Text(
-              "  18",
+              "  $day",
               style: TextStyle(color: Colors.grey.shade900, fontSize: 200),
             ),
           ),
@@ -37,8 +45,8 @@ class _HomeState extends State<Home> {
             left: 0,
             right: 0,
             child: Text(
-              "         December",
-              style: TextStyle(color: Colors.white, fontSize: 50),
+              "         $month",
+              style: TextStyle(color: app_colors.secondarycolor, fontSize: 50),
             ),
           ),
           Positioned(
@@ -54,9 +62,13 @@ class _HomeState extends State<Home> {
           SingleChildScrollView(
             child: Column(
               children: [
+                // spacer
                 Gap(250),
+                //logo
                 Image.asset("images/logo.png"),
+                //spacer
                 Gap(20),
+                // grid vieu
                 GridView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
@@ -64,18 +76,17 @@ class _HomeState extends State<Home> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 5,
-                    
+
                     childAspectRatio: 0.85,
                   ),
-                  itemBuilder: (itemBuilder, context) {
-                    final item = Product.products[context];
+                  itemBuilder: (itemBuilder, i) {
+                    final item = Product.products[i];
                     return GestureDetector(
                       onTap: () {
-                        if(context==0){
-                          
-                          setState(() {
-                          });
-                          
+                        if (selected.contains(item)) {
+                          selected[selected.indexOf(item)].qty += 1;
+                        } else {
+                          selected.add(item);
                         }
                       },
                       child: Padding(
@@ -89,12 +100,12 @@ class _HomeState extends State<Home> {
                               item.name,
                               style: TextStyle(color: Colors.white),
                             ),
-                      
+
                             Text(
                               "${item.price} tnd ",
                               style: TextStyle(color: Colors.white),
                             ),
-                      
+
                             Text(
                               item.description,
                               style: TextStyle(color: Colors.white),
@@ -105,20 +116,38 @@ class _HomeState extends State<Home> {
                     );
                   },
                 ),
-                Gap(20),
-                // description 
-                Container(
-                  height: 300,
-                  color: app_colors.secondarycolor,
-                  child: Center(
-                    child: Text(
-                      "Discover the latest trends in fashion and shop your favorite styles with our app.",
-                      style: TextStyle(color:app_colors.primarycolor, fontSize: 16),
-                    ),
+                //spacer
+                Gap(10),
+                // covers list view
+                SizedBox(
+                  height: 390,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: cover.covers.length,
+                    itemBuilder: (context, index) {
+                      final coveritem = cover.covers[index];
+                      return Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Image.asset(coveritem.image, height: 300),
+                            Gap(10),
+                            Text(
+                              coveritem.name.toUpperCase(),
+                              style: TextStyle(
+                                color: app_colors.secondarycolor,
+                                fontSize: 30,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
-                  
-                )
-              
+                ),
+                //description
+                Description(),
               ],
             ),
           ),
