@@ -19,7 +19,6 @@ class _CheckoutState extends State<Checkout> {
   Widget build(BuildContext context) {
     final List<Product> element = widget.element;
 
-    bool discount = true;
     double totalPrice = (element.fold(
       0.0,
       (previousValue, element) =>
@@ -27,12 +26,33 @@ class _CheckoutState extends State<Checkout> {
     ));
 
     return Scaffold(
-      appBar: costom_App_bar(isBlackk: false, cards: []),
+      appBar: costom_App_bar(isBlackk: false, cards: element),
+
       body: Column(
         children: [
+          // header decoration
+          Text("checkout", style: TextStyle(fontSize: 30, letterSpacing: 8)),
+          
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey.shade800),
+                ),
+                height: 2,
+                width: 100,
+              ),
+              Icon(Ionicons.star_outline),
+              Container(
+                decoration: BoxDecoration(border:Border.all(color: Colors.grey.shade800,)),
+                height: 2,width:100),
+            ],
+          ),
+          Gap(10),
           // products selected
           SizedBox(
-            height: 500,
+            height: 430,
             child: ListView.builder(
               itemCount: element.length,
               itemBuilder: (context, i) {
@@ -149,11 +169,7 @@ class _CheckoutState extends State<Checkout> {
                   ),
                 ),
                 GestureDetector(
-
                   onTap: () {
-                    
-
-
                     /* if (discount ==true) {
                       for (var dsct in element) {
                         dsct.price = (double.parse(dsct.price) * 0.9)
@@ -163,10 +179,6 @@ class _CheckoutState extends State<Checkout> {
                       discount = false;
                       setState(() {});
                     }  */
-                  
-                  
-
-
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -232,7 +244,7 @@ class _CheckoutState extends State<Checkout> {
           //spacer
           Spacer(),
           // botton
-          Custumer_button(event: "confirm order",),
+          Custumer_button(event: "confirm order", element: element, adress: [],),
         ],
       ),
     );

@@ -21,11 +21,11 @@ class _HomeState extends State<Home> {
     DateTime now = DateTime.now();
     int day = now.day;
     String month = DateFormat('MMMM', 'en_us').format(now);
-
     //bool selected_cat = false;
     return Scaffold(
       backgroundColor: app_colors.primarycolor,
-      appBar: costom_App_bar(isBlackk: true,cards: selected,),
+      appBar: costom_App_bar(isBlackk: true, cards: selected,),
+
       body: Stack(
         alignment: AlignmentGeometry.center,
 
@@ -83,6 +83,9 @@ class _HomeState extends State<Home> {
                     final item = Product.products[i];
                     return GestureDetector(
                       onTap: () {
+                        
+                        
+                       
                         if (selected.contains(item)) {
                           selected[selected.indexOf(item)].qty += 1;
                         } else {
