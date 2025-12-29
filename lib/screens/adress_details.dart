@@ -7,7 +7,7 @@ class AdressDetails extends StatefulWidget {
   const AdressDetails({super.key, this.editData ,required this.event });
 
   final dynamic editData;
-   final dynamic event; 
+   final List event; 
 
   @override
   State<AdressDetails> createState() => _AddAddressState();
@@ -49,122 +49,125 @@ class _AddAddressState extends State<AdressDetails> {
         zipCodeController.text = widget.event[5];
         phoneController.text = widget.event[6];
       } 
-    return Scaffold(
-      appBar: costom_App_bar(isBlackk: false, cards: []),
-
-      body: Column(
-        children: [
-          Gap(20),
-          Text(
-            "Adress Details",
-            style: TextStyle(fontSize: 30, letterSpacing: 8),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: Form(
-              //key: _formkey,
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextFieldCostmer(
-                          label: 'First name',
-                          controller: firstNameController,
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: costom_App_bar(isBlackk: false, cards: []),
+      
+        body: Column(
+          children: [
+            Gap(20),
+            Text(
+              "Adress Details",
+              style: TextStyle(fontSize: 30, letterSpacing: 8),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Form(
+                //key: _formkey,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFieldCostmer(
+                            label: 'First name',
+                            controller: firstNameController,
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: TextFieldCostmer(
-                          label: 'Last name',
-                          controller: lastNameController,
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: TextFieldCostmer(
+                            label: 'Last name',
+                            controller: lastNameController,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Gap(30),
-                  TextFieldCostmer(
-                    label: 'Address',
-                    controller: addressController,
-                  ),
-                  Gap(30),
-                  TextFieldCostmer(label: 'City', controller: cityController),
-                  Gap(30),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextFieldCostmer(
-                          label: 'State',
-                          controller: stateController,
+                      ],
+                    ),
+                    Gap(30),
+                    TextFieldCostmer(
+                      label: 'Address',
+                      controller: addressController,
+                    ),
+                    Gap(30),
+                    TextFieldCostmer(label: 'City', controller: cityController),
+                    Gap(30),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFieldCostmer(
+                            label: 'State',
+                            controller: stateController,
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: TextFieldCostmer(
-                          label: 'ZIP Code',
-                          controller: zipCodeController,
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: TextFieldCostmer(
+                            label: 'ZIP Code',
+                            controller: zipCodeController,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Gap(30),
-                  TextFieldCostmer(
-                    label: 'Phone Number',
-                    controller: phoneController,
-                  ),
-                ],
+                      ],
+                    ),
+                    Gap(30),
+                    TextFieldCostmer(
+                      label: 'Phone Number',
+                      controller: phoneController,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Spacer(),
-         /*  Custumer_button(
-            event: "add adress",
-            element: [],
-            adress: [
-              firstNameController.text,
-              lastNameController.text,
-              addressController.text,
-              cityController.text,
-              stateController.text,
-              zipCodeController.text,
-              phoneController.text,
-            ],
-          ), */
-          GestureDetector(
-            onTap: () {
-              final data=[
-                  firstNameController.text,
-                  lastNameController.text,
-                  addressController.text,
-                  cityController.text,
-                  stateController.text,
-                  zipCodeController.text,
-                  phoneController.text,
-                ];
-                
-
-
-
-
-
-
-                Navigator.pop(context,data);
-            },
-            child: Container(
-                margin: EdgeInsets.only(top: 30),
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  border: Border.all(color: Colors.grey.shade800),
+            Spacer(),
+           /*  Custumer_button(
+              event: "add adress",
+              element: [],
+              adress: [
+                firstNameController.text,
+                lastNameController.text,
+                addressController.text,
+                cityController.text,
+                stateController.text,
+                zipCodeController.text,
+                phoneController.text,
+              ],
+            ), */
+            GestureDetector(
+              onTap: () {
+                final data=[
+                    firstNameController.text,
+                    lastNameController.text,
+                    addressController.text,
+                    cityController.text,
+                    stateController.text,
+                    zipCodeController.text,
+                    phoneController.text,
+                  ];
+                  
+      
+      
+      
+      
+      
+      
+                  Navigator.pop(context,data);
+              },
+              child: Container(
+                  margin: EdgeInsets.only(top: 30),
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    border: Border.all(color: Colors.grey.shade800),
+                  ),
+                  height: 90,
+                  width: double.infinity,
+                  child: Center(child: Text("add adress".toUpperCase(),style: TextStyle(color: Colors.white,fontSize: 20),)),
                 ),
-                height: 90,
-                width: double.infinity,
-                child: Center(child: Text("add adress".toUpperCase(),style: TextStyle(color: Colors.white,fontSize: 20),)),
-              ),
-          ),
-        
-        
-        
-        ],
+            ),
+          
+          
+          
+          ],
+        ),
       ),
     );
   }

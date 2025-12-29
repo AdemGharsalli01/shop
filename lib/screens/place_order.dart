@@ -6,6 +6,7 @@ import 'package:ionicons/ionicons.dart';
 import 'package:shop/componment/app_bar.dart';
 import 'package:shop/componment/custumer%20button.dart';
 import 'package:shop/medels/product.dart';
+import 'package:shop/screens/add_card.dart';
 import 'package:shop/screens/adress_details.dart';
 
 class PlaceOrder extends StatefulWidget {
@@ -17,18 +18,42 @@ class PlaceOrder extends StatefulWidget {
 }
 
 class _PlaceOrderState extends State<PlaceOrder> {
-  List _saved_adress=[];
+  List _saved_adress = [];
 
-  void _opneadress(context) async {
+   List _saved_card = [];
+   List<Product> get element => element;
+   double get totalPrice => (widget.element.fold(
+      0.0,
+      (previousValue, element) =>
+          previousValue + (double.parse(element.price) * element.qty),
+    ));
+   
+
+  void _opencard(context) async {
+    final _cardDteails = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (builder) => Addcard(savedData: _saved_card)),
+    );
+    if (_cardDteails != null) {
+      setState(() {
+        _saved_card = _cardDteails;
+      });
+    }
+    print(_cardDteails);
+  }
+
+  void _opneadress() async {
     final _adressDatails = await Navigator.push(
       context,
-      MaterialPageRoute(builder: (builder) => AdressDetails(event:_saved_adress)),
+      MaterialPageRoute(
+        builder: (builder) => AdressDetails(event: _saved_adress),
+      ),
     );
     if (_adressDatails != null) {
       setState(() {
         _saved_adress = _adressDatails;
       });
-    }
+    } else {}
   }
 
   @override
@@ -39,137 +64,202 @@ class _PlaceOrderState extends State<PlaceOrder> {
       (previousValue, element) =>
           previousValue + (double.parse(element.price) * element.qty),
     ));
-    return Scaffold(
-      appBar: costom_App_bar(isBlackk: false, cards: element),
-      body: Column(
-        children: [
-          Text("checkout", style: TextStyle(fontSize: 30, letterSpacing: 8)),
-          // header decoration
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.shade600),
-                ),
-                height: 2,
-                width: 100,
-              ),
-              Icon(Ionicons.star_outline, color: Colors.grey.shade600),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey.shade600),
-                ),
-                height: 2,
-                width: 100,
-              ),
-            ],
-          ),
-          Gap(10),
-          // adress details
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: costom_App_bar(isBlackk: false, cards: element),
+        body: Column(
+          children: [
+            Text("checkout", style: TextStyle(fontSize: 30, letterSpacing: 8)),
+            // header decoration
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey.shade600),
+                  ),
+                  height: 2,
+                  width: 100,
+                ),
+                Icon(Ionicons.star_outline, color: Colors.grey.shade600),
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey.shade600),
+                  ),
+                  height: 2,
+                  width: 100,
+                ),
+              ],
+            ),
+            Gap(10),
+            // adress details
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  _saved_adress.isNotEmpty
+                      ? Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
 
-                _saved_adress.isNotEmpty
-               ?Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                          "shipping adress".toUpperCase(),
-                          style: TextStyle(
-                            color: Colors.grey.shade700,
-                            letterSpacing: 3,
+                              children: [
+                                Text(
+                                  "shipping adress".toUpperCase(),
+                                  style: TextStyle(
+                                    color: Colors.grey.shade700,
+                                    letterSpacing: 3,
+                                  ),
+                                ),
+                                Gap(10),
+                                Row(
+                                  children: [
+                                    Gap(20),
+                                    Text(
+                                      _saved_adress.isNotEmpty
+                                          ? "${_saved_adress[0]} ${_saved_adress[1].toString().toUpperCase()}"
+                                          : "adem gharsalli",
+                                      style: TextStyle(
+                                        color: Colors.grey.shade900,
+                                        letterSpacing: 3,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Gap(20),
+                                    Text(
+                                      _saved_adress.isNotEmpty
+                                          ? _saved_adress[6]
+                                                .toString()
+                                                .toUpperCase()
+                                          : "phone number",
+                                      style: TextStyle(
+                                        color: Colors.grey.shade600,
+                                        letterSpacing: 3,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Gap(20),
+                                    Text(
+                                      _saved_adress.isNotEmpty
+                                          ? _saved_adress[3]
+                                                .toString()
+                                                .toUpperCase()
+                                          : "city",
+                                      style: TextStyle(
+                                        color: Colors.grey.shade600,
+                                        letterSpacing: 3,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Gap(20),
+                                    Text(
+                                      _saved_adress.isNotEmpty
+                                          ? _saved_adress[4]
+                                                .toString()
+                                                .toUpperCase()
+                                          : "state",
+                                      style: TextStyle(
+                                        color: Colors.grey.shade600,
+                                        letterSpacing: 3,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                // na7ineha 5ater bech ne5dhou m3loumet moch bech na3tiw ma3loumet
+                                //Navigator.push(context, MaterialPageRoute(builder: (context)=>AdressDetails()));
+                                _opneadress();
+                              },
+                              child: Icon(
+                                Icons.arrow_forward_ios_outlined,
+                                color: Colors.grey.shade500,
+                                size: 40,
+                              ),
+                            ),
+                            Gap(10),
+                          ],
+                        )
+                      : Gap(20),
+                  _saved_adress.isEmpty
+                      ? GestureDetector(
+                          onTap: () {
+                            _opneadress();
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black12,
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            height: 50,
+                            width: 400,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Center(
+                                  child: Text(
+                                    "add shipping adess",
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      letterSpacing: 3,
+                                    ),
+                                  ),
+                                ),
+                                Gap(40),
+                                Icon(
+                                  Ionicons.add_circle_outline,
+                                  color: Colors.black,
+                                  size: 30,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        Gap(10),
-                        Row(
-                          children: [
-                            Gap(20),
-                            Text(
-                              _saved_adress.isNotEmpty
-                                  ? "${_saved_adress[0]} ${_saved_adress[1].toString().toUpperCase()}"
-                                  : "adem gharsalli",
-                              style: TextStyle(
-                                color: Colors.grey.shade900,
-                                letterSpacing: 3,
-                              ),
+                        )
+                      : SizedBox.shrink(),
+                ],
+              ),
+            ),
+            Gap(30),
+            // shipping method
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                    children: [
+                      Column(
+                        children: [
+                          Text(
+                            "shipping method".toUpperCase(),
+                            style: TextStyle(
+                              color: Colors.grey.shade700,
+                              letterSpacing: 3,
                             ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Gap(20),
-                            Text(
-                              _saved_adress.isNotEmpty
-                                  ? _saved_adress[2].toString().toUpperCase()
-                                  : "adem gharsalli",
-                              style: TextStyle(
-                                color: Colors.grey.shade600,
-                                letterSpacing: 3,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Gap(20),
-                            Text(
-                              _saved_adress.isNotEmpty
-                                  ? _saved_adress[3].toString().toUpperCase()
-                                  : "adem gharsalli",
-                              style: TextStyle(
-                                color: Colors.grey.shade600,
-                                letterSpacing: 3,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Gap(20),
-                            Text(
-                              _saved_adress.isNotEmpty
-                                  ? _saved_adress[4].toString().toUpperCase()
-                                  : "adem gharsalli",
-                              style: TextStyle(
-                                color: Colors.grey.shade600,
-                                letterSpacing: 3,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        // na7ineha 5ater bech ne5dhou m3loumet moch bech na3tiw ma3loumet
-                        //Navigator.push(context, MaterialPageRoute(builder: (context)=>AdressDetails()));
-                        _opneadress(context);
-                      },
-                      child: Icon(
-                        Icons.arrow_forward_ios_outlined,
-                        color: Colors.grey.shade500,
-                        size: 40,
+                          ),
+                          Gap(10),
+                        ],
                       ),
-                    ),
-                    Gap(10),
-                  ],
-                )
-              :Gap(20),
-              _saved_adress.isEmpty
-              ?GestureDetector(
-                  onTap: () {
-                    _opneadress(context);
-                    
-                  },
-                  child: Container(
+                    ],
+                  ),
+                  Container(
                     decoration: BoxDecoration(
                       color: Colors.black12,
                       borderRadius: BorderRadius.circular(50),
@@ -177,185 +267,147 @@ class _PlaceOrderState extends State<PlaceOrder> {
                     height: 50,
                     width: 400,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
+                        Gap(20),
                         Center(
                           child: Text(
-                            "add shipping adess",
+                            "pickup at store",
                             style: TextStyle(
                               color: Colors.black,
                               letterSpacing: 3,
                             ),
                           ),
                         ),
-                        Gap(40),
+                        Spacer(),
+                        Center(
+                          child: Text(
+                            "Free",
+                            style: TextStyle(
+                              color: Colors.black,
+                              letterSpacing: 3,
+                            ),
+                          ),
+                        ),
+                        Gap(10),
                         Icon(
-                          Ionicons.add_circle_outline,
+                          Icons.keyboard_arrow_down_outlined,
                           color: Colors.black,
                           size: 30,
                         ),
+                        Gap(30),
                       ],
                     ),
                   ),
-                ):SizedBox.shrink(),
-              ],
+                ],
+              ),
             ),
-          ),
-          Gap(30),
-          // shipping method
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Gap(30),
+            //payment methode
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                          "shipping method".toUpperCase(),
-                          style: TextStyle(
-                            color: Colors.grey.shade700,
-                            letterSpacing: 3,
-                          ),
-                        ),
-                        Gap(10),
-                      ],
-                    ),
-                  ],
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black12,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  height: 50,
-                  width: 400,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Gap(20),
-                      Center(
-                        child: Text(
-                          "pickup at store",
-                          style: TextStyle(
-                            color: Colors.black,
-                            letterSpacing: 3,
+                      Column(
+                        children: [
+                          Text(
+                            "payment method".toUpperCase(),
+                            style: TextStyle(
+                              color: Colors.grey.shade700,
+                              letterSpacing: 3,
+                            ),
                           ),
-                        ),
+                          Gap(10),
+                        ],
                       ),
-                      Spacer(),
-                      Center(
-                        child: Text(
-                          "Free",
-                          style: TextStyle(
-                            color: Colors.black,
-                            letterSpacing: 3,
-                          ),
-                        ),
-                      ),
-                      Gap(10),
-                      Icon(
-                        Icons.keyboard_arrow_down_outlined,
-                        color: Colors.black,
-                        size: 30,
-                      ),
-                      Gap(30),
                     ],
                   ),
-                ),
-              ],
-            ),
-          ),
-          Gap(30),
-          //payment methode
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-                  children: [
-                    Column(
+                  // ignore: avoid_unnecessary_containers
+                  Container(
+                    child: Row(
                       children: [
-                        Text(
-                          "payment method".toUpperCase(),
-                          style: TextStyle(
-                            color: Colors.grey.shade700,
-                            letterSpacing: 3,
-                          ),
-                        ),
                         Gap(10),
+                        Text(
+                          _saved_card.isNotEmpty
+                              ? _saved_card[0].toString().toUpperCase()
+                              : "no card selected",
+                        ),
                       ],
                     ),
-                  ],
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black12,
-                    borderRadius: BorderRadius.circular(50),
                   ),
-                  height: 50,
-                  width: 400,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Gap(20),
-                      Center(
-                        child: Text(
-                          "select payment methode",
-                          style: TextStyle(
-                            color: Colors.black,
-                            letterSpacing: 3,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black12,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    height: 50,
+                    width: 400,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Gap(20),
+                        Center(
+                          child: Text(
+                            "select payment methode",
+                            style: TextStyle(
+                              color: Colors.black,
+                              letterSpacing: 3,
+                            ),
                           ),
                         ),
-                      ),
-                      Spacer(),
+                        Spacer(),
 
-                      Icon(
-                        Icons.keyboard_arrow_down_outlined,
-                        color: Colors.black,
-                        size: 30,
-                      ),
-                      Gap(30),
-                    ],
+                        GestureDetector(
+                          onTap: () {
+                            _opencard(context);
+                          },
+                          child: Icon(
+                            Icons.keyboard_arrow_down_outlined,
+                            color: Colors.black,
+                            size: 30,
+                          ),
+                        ),
+                        Gap(30),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Spacer(),
+            //total price
+            Row(
+              children: [
+                Gap(20),
+                Text(
+                  "total :",
+                  style: TextStyle(
+                    color: Colors.grey.shade700,
+                    letterSpacing: 3,
+                    fontSize: 20,
                   ),
                 ),
+                Spacer(),
+                Text(
+                  "$totalPrice TND",
+                  style: TextStyle(
+                    color: Colors.black,
+                    letterSpacing: 3,
+                    fontSize: 20,
+                  ),
+                ),
+                Gap(20),
               ],
             ),
-          ),
-          Spacer(),
-          //total price
-          Row(
-            children: [
-              Gap(20),
-              Text(
-                "total :",
-                style: TextStyle(
-                  color: Colors.grey.shade700,
-                  letterSpacing: 3,
-                  fontSize: 20,
-                ),
-              ),
-              Spacer(),
-              Text(
-                "$totalPrice TND",
-                style: TextStyle(
-                  color: Colors.black,
-                  letterSpacing: 3,
-                  fontSize: 20,
-                ),
-              ),
-              Gap(20),
-            ],
-          ),
 
-          Custumer_button(event: "place order", element: element, adress: []),
-        ],
+            Custumer_button(event: "place order", element: element, adress: []),
+          ],
+        ),
       ),
     );
   }
